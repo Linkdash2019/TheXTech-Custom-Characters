@@ -1,14 +1,8 @@
 name: DSi CI
 
 on:
-  push:
-    branches:
-      - main
-      - versus-ci-homebrew
-  pull_request:
-    branches:
-      - main
-
+  workflow_dispatch:
+  
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
