@@ -1,14 +1,7 @@
 name: Vita CI
 
 on:
-  push:
-    branches:
-      - main
-      - stable*
-      - versus-ci-homebrew
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
