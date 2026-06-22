@@ -1,13 +1,7 @@
 name: Regression Test CI
 
 on:
-  push:
-    branches:
-      - main
-      - stable*
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
