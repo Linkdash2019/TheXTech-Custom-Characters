@@ -369,7 +369,7 @@ void PlayerMovementX(int A, tempf_t& cursed_value_C)
     if((Player[A].State == 4 || Player[A].State == 5) && Player[A].Wet == 0)
     {
         // note: RunCount was previously a float, so its values have been multiplied by 10 everywhere
-        bool is_running = (num_t::abs(Player[A].Location.SpeedX) >= Physics.PlayerRunSpeed; // Rounding error of SpeedX makes an evil here (FIXME: does this match VB6?)
+        bool is_running = num_t::abs(Player[A].Location.SpeedX) >= Physics.PlayerRunSpeed; // Rounding error of SpeedX makes an evil here (FIXME: does this match VB6?)
 
         if( (Player[A].CanFly2 ||
              is_grounded) &&
@@ -794,8 +794,7 @@ void PlayerMovementY(int A)
     }
 
     // START ALT JUMP - this code does the player's spin jump
-    if(Player[A].Controls.AltJump && (Player[A].Character == 1 || Player[A].Character == 2 || Player[A].Character == 4 || Player[A].Character == 3))
-                                  && (!g_config.disable_spin_jump || Player[A].ShellSurf)
+    if(Player[A].Controls.AltJump && (Player[A].Character == 1 || Player[A].Character == 2 || Player[A].Character == 4 || Player[A].Character == 3) && (!g_config.disable_spin_jump || Player[A].ShellSurf))
     {
         num_t tempSpeed;
         if(Player[A].Location.SpeedX > 0)
@@ -996,8 +995,7 @@ void PlayerMovementY(int A)
     // glide ' Racoon Mario
     if((Player[A].State == PLR_STATE_LEAF || Player[A].State == PLR_STATE_STATUE) || Player[A].YoshiBlue || (Player[A].Mount == 1 && Player[A].MountType == 3))
     {
-        if((Player[A].Controls.Jump || Player[A].Controls.AltJump)) &&
-          ((Player[A].Location.SpeedY > Physics.PlayerGravity * 5 && Player[A].Character != 3 && Player[A].Character != 4))
+        if((Player[A].Controls.Jump || Player[A].Controls.AltJump) && (Player[A].Location.SpeedY > Physics.PlayerGravity * 5 && Player[A].Character != 3 && Player[A].Character != 4))
         {
             if(!Player[A].ShellSurf)
             {
