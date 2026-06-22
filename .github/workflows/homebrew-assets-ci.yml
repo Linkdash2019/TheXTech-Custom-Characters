@@ -1,19 +1,6 @@
 name: Homebrew Assets CI
 
 on:
-  push:
-    branches:
-      - main
-      - stable*
-    paths:
-      - .github/workflows/homebrew-assets-ci.yml
-      - utils/convertkit/assets-convert-homebrew.py
-  pull_request:
-    branches:
-      - main
-    paths:
-      - .github/workflows/homebrew-assets-ci.yml
-      - utils/convertkit/assets-convert-homebrew.py
   workflow_dispatch:
 
 concurrency:
