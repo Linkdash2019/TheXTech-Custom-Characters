@@ -1,15 +1,7 @@
 name: PortMaster CI
 
 on:
-  push:
-    branches:
-      - main
-      - stable*
-      - versus-ci
-      - versus-ci-portmaster
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
