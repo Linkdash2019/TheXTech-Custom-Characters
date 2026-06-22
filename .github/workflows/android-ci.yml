@@ -1,14 +1,7 @@
 name: Android CI
 
 on:
-  push:
-    branches:
-      - main
-      - stable*
-      - versus-ci-android
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
