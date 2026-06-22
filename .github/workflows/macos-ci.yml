@@ -202,27 +202,6 @@ jobs:
         path: ./*.zip
         name: ${{ matrix.config.name }} ${{ matrix.config.build_type }} ZIP
 
-    - name: Deploy to builds.wohlsoft.ru
-      if: success() && github.event_name != 'pull_request' && steps.upload-check.outputs.available == 'true'
-      continue-on-error: true
-      shell: bash
-      run: |
-        if [[ ! -z "${{ matrix.config.extra_path }}" ]]; then
-          export PATH=${{ matrix.config.extra_path }}:${PATH}
-        fi
-        UPLOAD_LIST="set ssl:verify-certificate no;"
-        if ls *.dmg 1> /dev/null 2>&1; then
-            for q in *.dmg; do
-                UPLOAD_LIST="${UPLOAD_LIST} put -O ${{ matrix.config.upload_directory }} $q;"
-            done
-        fi
-        if ls *.zip 1> /dev/null 2>&1; then
-            for q in *.zip; do
-                UPLOAD_LIST="${UPLOAD_LIST} put -O ${{ matrix.config.upload_directory }} $q;"
-            done
-        fi
-        lftp -e "${UPLOAD_LIST} exit" -u ${{ secrets.builds_login }},${{ secrets.builds_password }} ${{ secrets.builds_host }}
-
     - name: Clean-up
       if: always()
       shell: bash
