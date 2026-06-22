@@ -56,12 +56,6 @@ void PlayerMovementX(int A, tempf_t& cursed_value_C)
     if(Player[A].Stoned) // if statue form reset to normal
         speedVar = 1;
 
-    if(Player[A].Character == 3)
-        speedVar = (tempf_t)((num_t)speedVar * 0.93_r);
-
-    if(Player[A].Character == 4)
-        speedVar = (tempf_t)((num_t)speedVar * 1.07_r);
-
     if(Player[A].State == PLR_STATE_AQUATIC)
         speedVar = (tempf_t)((num_t)speedVar * 0.87_r);
 
@@ -194,7 +188,7 @@ void PlayerMovementX(int A, tempf_t& cursed_value_C)
                 }
                 else // normal duck
                 {
-                    if((Player[A].State > 1 && Player[A].HoldingNPC <= 0) || (Player[A].Character == 3 || Player[A].Character == 4 || Player[A].Character == 5))
+                    if((Player[A].State > 1 && Player[A].HoldingNPC <= 0) || (Player[A].Character == 5))
                     {
                         if(!Player[A].Duck && Player[A].TailCount == 0) // Player ducks
                         {
@@ -253,25 +247,11 @@ void PlayerMovementX(int A, tempf_t& cursed_value_C)
             // turning around or not yet walking
             if(dir * Player[A].Location.SpeedX < Physics.PlayerWalkSpeed * (num_t)speedVar * local_C)
             {
-                if(Player[A].Character == 2) // LUIGI
-                    Player[A].Location.SpeedX += dir * num_t::from_double(-0.1 * 0.175);
-                else if(Player[A].Character == 3) // PEACH
-                    Player[A].Location.SpeedX += dir * num_t::from_double(-0.05 * 0.175);
-                else if(Player[A].Character == 4) // toad
-                    Player[A].Location.SpeedX += dir * num_t::from_double(0.05 * 0.175);
-
                 Player[A].Location.SpeedX += dir * (num_t)speedVar / 10;
             }
             // running
             else
             {
-                if(Player[A].Character == 2) // LUIGI
-                    Player[A].Location.SpeedX += dir * num_t::from_double(-0.05 * 0.175);
-                else if(Player[A].Character == 3) // PEACH
-                    Player[A].Location.SpeedX += dir * num_t::from_double(-0.025 * 0.175);
-                else if(Player[A].Character == 4) // toad
-                    Player[A].Location.SpeedX += dir * num_t::from_double(0.025 * 0.175);
-
                 if(Player[A].Character == 5) // Link
                     Player[A].Location.SpeedX += dir * (num_t)speedVar / 40;
                 else // Mario
@@ -281,14 +261,7 @@ void PlayerMovementX(int A, tempf_t& cursed_value_C)
             // turning around
             if(dir * Player[A].Location.SpeedX < 0)
             {
-                if(Player[A].Character == 2) // LUIGI
-                    Player[A].Location.SpeedX += dir * num_t::from_double(-0.18 * 0.29 + 0.18);
-                else if(Player[A].Character == 3) // PEACH
-                    Player[A].Location.SpeedX += dir * num_t::from_double(-0.09 * 0.29 + 0.18);
-                else if(Player[A].Character == 4) // toad
-                    Player[A].Location.SpeedX += dir * num_t::from_double(0.09 * 0.29 + 0.18);
-                else
-                    Player[A].Location.SpeedX += dir * 0.18_n;
+                Player[A].Location.SpeedX += dir * 0.18_n;
 
                 if(SuperSpeed)
                     Player[A].Location.SpeedX = Player[A].Location.SpeedX * 0.95_r;
@@ -308,14 +281,6 @@ void PlayerMovementX(int A, tempf_t& cursed_value_C)
                 Player[A].Location.SpeedX -= slowdown;
             if(Player[A].Location.SpeedX < 0)
                 Player[A].Location.SpeedX += slowdown;
-
-            // ratio-based slowdown
-            if(Player[A].Character == 2) // LUIGI
-                Player[A].Location.SpeedX *= 1.003_r;
-            else if(Player[A].Character == 3) // PEACH
-                Player[A].Location.SpeedX *= 1.0015_r;
-            else if(Player[A].Character == 4) // toad
-                Player[A].Location.SpeedX *= 0.9985_r;
 
             if(SuperSpeed || (aquatic_jumps && Player[A].Controls.Run))
                 Player[A].Location.SpeedX *= 0.95_r;
@@ -404,8 +369,7 @@ void PlayerMovementX(int A, tempf_t& cursed_value_C)
     if((Player[A].State == 4 || Player[A].State == 5) && Player[A].Wet == 0)
     {
         // note: RunCount was previously a float, so its values have been multiplied by 10 everywhere
-        bool is_running = (num_t::abs(Player[A].Location.SpeedX) >= Physics.PlayerRunSpeed ||
-            (Player[A].Character == 3 && num_t::abs(Player[A].Location.SpeedX) >= 5.579_n)); // Rounding error of SpeedX makes an evil here (FIXME: does this match VB6?)
+        bool is_running = (num_t::abs(Player[A].Location.SpeedX) >= Physics.PlayerRunSpeed; // Rounding error of SpeedX makes an evil here (FIXME: does this match VB6?)
 
         if( (Player[A].CanFly2 ||
              is_grounded) &&
@@ -423,20 +387,20 @@ void PlayerMovementX(int A, tempf_t& cursed_value_C)
             Player[A].CanFly = true;
             Player[A].RunCount = 350;
         }
-        else if(Player[A].RunCount >= 400 && Player[A].Character == 2)
+        else if(Player[A].RunCount >= 350 && Player[A].Character == 2)
         {
             Player[A].CanFly = true;
-            Player[A].RunCount = 400;
+            Player[A].RunCount = 350;
         }
-        else if(Player[A].RunCount >= 800 && Player[A].Character == 3)
+        else if(Player[A].RunCount >= 350 && Player[A].Character == 3)
         {
             Player[A].CanFly = true;
-            Player[A].RunCount = 800;
+            Player[A].RunCount = 350;
         }
-        else if(Player[A].RunCount >= 600 && Player[A].Character == 4)
+        else if(Player[A].RunCount >= 350 && Player[A].Character == 4)
         {
             Player[A].CanFly = true;
-            Player[A].RunCount = 600;
+            Player[A].RunCount = 350;
         }
         else if(Player[A].RunCount >= 100 && Player[A].Character == 5) // link flying
         {
@@ -649,11 +613,8 @@ void PlayerMovementY(int A)
                 Player[A].Location.SpeedY = Physics.PlayerJumpVelocity - tempSpeed;
                 Player[A].Jump = Physics.PlayerJumpHeight;
 
-                if(Player[A].Character == 4 && (Player[A].State == 4 || Player[A].State == 5) && !Player[A].SpinJump)
+                if((Player[A].State == 5) && !Player[A].SpinJump)
                     Player[A].DoubleJump = true;
-
-                if(Player[A].Character == 2)
-                    Player[A].Jump += 3;
 
                 if(Player[A].SpinJump)
                     Player[A].Jump -= 6;
@@ -680,32 +641,12 @@ void PlayerMovementY(int A)
                 {
                     Player[A].StandingOnNPC = 0;
                     Player[A].Jump = 30;
-                    if(Player[A].Character == 2)
-                        Player[A].Jump += 3;
                     if(Player[A].SpinJump)
                         Player[A].Jump -= 6;
                     Player[A].CanFly = false;
                     Player[A].RunCount = 0;
                     Player[A].CanFly2 = true;
-
-                    if(Player[A].Character == 2) // luigi doesn't fly as long as mario
-                        Player[A].FlyCount = 300; // Length of flight time
-                    else if(Player[A].Character == 3) // special handling for peach
-                    {
-                        Player[A].FlyCount = 0;
-                        Player[A].RunCount = 800; // multiplied by 10 vs VB6 code, since it's an int now
-                        Player[A].CanFly2 = false;
-                        Player[A].Jump = 70;
-                        Player[A].CanFloat = true;
-                        Player[A].FlySparks = true;
-                    }
-#if 0
-                    // FIXME: Duplicated "Character == 3" condition branch [PVS Studio]
-                    else if(Player[A].Character == 3) // special handling for peach
-                        Player[A].FlyCount = 280; // Length of flight time
-#endif
-                    else
-                        Player[A].FlyCount = 320; // Length of flight time
+                    Player[A].FlyCount = 320; // Length of flight time
                 }
             }
             else if(has_wall_traction && Player[A].CanJump)
@@ -717,9 +658,6 @@ void PlayerMovementY(int A)
                 Player[A].Location.X += Player[A].Location.SpeedX;
                 Player[A].Jump = 8;
                 Player[A].JumpOffWall = true;
-
-                if(Player[A].Character == 2)
-                    Player[A].Jump += 3;
             }
             else if(Player[A].Jump > 0) // controls the height of the jump
             {
@@ -856,9 +794,8 @@ void PlayerMovementY(int A)
     }
 
     // START ALT JUMP - this code does the player's spin jump
-    if(Player[A].Controls.AltJump && (Player[A].Character == 1 || Player[A].Character == 2 || Player[A].Character == 4 ||
-                                      (g_config.fix_char3_escape_shell_surf && Player[A].Character == 3 && Player[A].ShellSurf))
-                                  && (!g_config.disable_spin_jump || Player[A].ShellSurf))
+    if(Player[A].Controls.AltJump && (Player[A].Character == 1 || Player[A].Character == 2 || Player[A].Character == 4 || Player[A].Character == 3))
+                                  && (!g_config.disable_spin_jump || Player[A].ShellSurf)
     {
         num_t tempSpeed;
         if(Player[A].Location.SpeedX > 0)
@@ -874,8 +811,6 @@ void PlayerMovementY(int A)
                 Player[A].SpinFireDir = Player[A].Direction;
                 Player[A].Location.SpeedY = Physics.PlayerJumpVelocity - tempSpeed;
                 Player[A].Jump = Physics.PlayerJumpHeight;
-                if(Player[A].Character == 2)
-                    Player[A].Jump += 3;
 
                 if(Player[A].StandingOnNPC > 0 && !FreezeNPCs)
                 {
@@ -916,8 +851,6 @@ void PlayerMovementY(int A)
                 {
                     Player[A].StandingOnNPC = 0;
                     Player[A].Jump = 30;
-                    if(Player[A].Character == 2)
-                        Player[A].Jump += 3;
                     if(Player[A].SpinJump)
                         Player[A].Jump -= 6;
                     Player[A].CanFly = false;
@@ -1019,8 +952,6 @@ void PlayerMovementY(int A)
                 if(Player[A].Location.SpeedY > Physics.PlayerTerminalVelocity / 2)
                     Player[A].Location.SpeedY = Physics.PlayerTerminalVelocity / 2;
             }
-            else if(Player[A].Character == 2)
-                Player[A].Location.SpeedY += Physics.PlayerGravity * 0.9_r;
             else
                 Player[A].Location.SpeedY += Physics.PlayerGravity;
 
@@ -1043,10 +974,7 @@ void PlayerMovementY(int A)
             {
                 if(Player[A].Controls.Jump || Player[A].Controls.AltJump)
                 {
-                    if(Player[A].Character == 2)
-                        Player[A].Location.SpeedY += -Physics.PlayerGravity * 0.72_r;
-                    else
-                        Player[A].Location.SpeedY += -Physics.PlayerGravity * 0.8_r;
+                    Player[A].Location.SpeedY += -Physics.PlayerGravity * 0.8_r;
 
                     if(Player[A].Location.SpeedY > Physics.PlayerGravity * 3)
                         Player[A].Location.SpeedY = Physics.PlayerGravity * 3;
@@ -1062,90 +990,18 @@ void PlayerMovementY(int A)
             Player[A].NoGravity -= 1;
     }
 
-    // princess float
-    if(Player[A].Character == 3 && Player[A].Wet == 0 && !Player[A].WetFrame && (!aquatic_jumps || !Player[A].MountSpecial))
-    {
-        if(Player[A].Location.SpeedY == 0 || Player[A].StandingOnNPC > 0 || Player[A].Slope > 0 || Player[A].CanFly2)
-            Player[A].CanFloat = true;
-        else if(Player[A].CanFloat)
-        {
-            if(Player[A].Jump == 0 && ((Player[A].Controls.Jump && Player[A].FloatRelease) ||
-              (Player[A].Controls.AltJump && Player[A].Location.SpeedY > 0)))
-            {
-                // float time is longer during glide
-                if(Player[A].State == 4 || Player[A].State == 5)
-                {
-                    Player[A].FloatTime = 100;
-                    Player[A].FlySparks = true;
-                }
-                else
-                    Player[A].FloatTime = 65;
-
-                Player[A].FloatDir = 1;
-
-                if(Player[A].Location.SpeedY < -0.5_n)
-                    Player[A].FloatSpeed = 0.5_nf;
-                else if(Player[A].Location.SpeedY > 0.5_n)
-                    Player[A].FloatSpeed = 0.5_nf;
-                else
-                    Player[A].FloatSpeed = (numf_t)(Player[A].Location.SpeedY);
-
-                Player[A].CanFloat = false;
-            }
-        }
-    }
-
-    if(Player[A].Character == 3 && Player[A].FlySparks)
-    {
-        if(Player[A].FloatTime == 0 && Player[A].Location.SpeedY >= 0)
-            Player[A].FlySparks = false;
-    }
-
     if(Player[A].CanFloat)
         Player[A].FloatTime = 0;
-
-    if(Player[A].FloatTime > 0 && Player[A].Character == 3)
-    {
-        if((Player[A].Controls.Jump || Player[A].Controls.AltJump) && Player[A].Vine == 0)
-        {
-            tempf_t floatSpeed = (tempf_t)Player[A].FloatSpeed;
-            floatSpeed += Player[A].FloatDir * (tempf_t)0.1_n;
-
-            if(floatSpeed > (tempf_t)0.8_n)
-                Player[A].FloatDir = -1;
-
-            if(floatSpeed < -(tempf_t)0.8_n)
-                Player[A].FloatDir = 1;
-
-            Player[A].Location.SpeedY = (num_t)floatSpeed;
-            Player[A].FloatSpeed = (numf_t)floatSpeed;
-
-            Player[A].FloatTime -= 1;
-            if(Player[A].FloatTime == 0 && Player[A].Location.SpeedY == 0)
-                Player[A].Location.SpeedY = 0.1_n;
-        }
-        else
-            Player[A].FloatTime = 0;
-    }
-
 
     // glide ' Racoon Mario
     if((Player[A].State == PLR_STATE_LEAF || Player[A].State == PLR_STATE_STATUE) || Player[A].YoshiBlue || (Player[A].Mount == 1 && Player[A].MountType == 3))
     {
-        if((Player[A].Controls.Jump || Player[A].Controls.AltJump) &&
-          ((Player[A].Location.SpeedY > Physics.PlayerGravity * 5 && Player[A].Character != 3 && Player[A].Character != 4) ||
-            (Player[A].Location.SpeedY > Physics.PlayerGravity * 10 && Player[A].Character == 3) ||
-            (Player[A].Location.SpeedY > Physics.PlayerGravity * 7.5_rb && Player[A].Character == 4)) &&
-            !Player[A].GroundPound && Player[A].Slope == 0 && Player[A].Character != 5)
+        if((Player[A].Controls.Jump || Player[A].Controls.AltJump)) &&
+          ((Player[A].Location.SpeedY > Physics.PlayerGravity * 5 && Player[A].Character != 3 && Player[A].Character != 4))
         {
             if(!Player[A].ShellSurf)
             {
-                if(Player[A].Character == 3)
-                    Player[A].Location.SpeedY = Physics.PlayerGravity * 10;
-                else if(Player[A].Character == 4)
-                    Player[A].Location.SpeedY = Physics.PlayerGravity * 7.5_rb;
-                else
-                    Player[A].Location.SpeedY = Physics.PlayerGravity * 5;
+                Player[A].Location.SpeedY = Physics.PlayerGravity * 5;
             }
             else
             {
@@ -1335,15 +1191,6 @@ void PlayerAquaticSwimMovement(int A)
     if(Player[A].Controls.Run)
         target_speed += 1;
 
-    if(Player[A].Character == 2)
-    {
-        target_speed *= 0.9_r;
-        rate = rate / 2;
-    }
-    else if(Player[A].Character == 3)
-        target_speed *= 0.85_r;
-    else if(Player[A].Character == 4)
-        target_speed *= 1.1_r;
     else if(Player[A].Character == 5)
     {
         target_speed *= 0.95_r;
