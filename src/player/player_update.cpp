@@ -207,7 +207,7 @@ bool UpdatePlayer()
                     Player[A].Slide = true;
                 else if(Player[A].Slope > 0 && Player[A].Controls.Down &&
                    Player[A].Mount == 0 && Player[A].HoldingNPC == 0 &&
-                   !(layer[A].Character == 5) &&
+                   !(Player[A].Character == 5) &&
                    Player[A].GrabTime == 0)
                 {
                     // prioritize rolling for Polar power
