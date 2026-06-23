@@ -379,7 +379,7 @@ void PlayerBlockLogic(int A, int& floorBlock, bool& movingBlock, bool& DontReset
                                             Player[A].Slope = B;
                                             if(BlockSlope[Block[B].Type] == 1 && GameMenu && Player[A].Location.SpeedX >= 2)
                                             {
-                                                if(Player[A].Mount == 0 && Player[A].HoldingNPC == 0 && Player[A].Character <= 2)
+                                                if(Player[A].Mount == 0 && Player[A].HoldingNPC == 0 && Player[A].Character <= 4)
                                                 {
                                                     if(Player[A].Duck)
                                                         UnDuck(Player[A]);
@@ -864,7 +864,7 @@ void PlayerBlockLogic(int A, int& floorBlock, bool& movingBlock, bool& DontReset
             // B = floorBlock;
             if(Player[A].TailCount == 0 && Player[A].Controls.Down && Player[A].Controls.Run && Player[A].Mount == 0 && !Player[A].Stoned && Player[A].HoldingNPC == 0 && (Player[A].GrabTime > 0 || Player[A].RunRelease))
             {
-                if((Player[A].GrabTime >= 12 && Player[A].Character < 3) || (Player[A].GrabTime >= 16 && Player[A].Character == 3) || (Player[A].GrabTime >= 8 && Player[A].Character == 4))
+                if((Player[A].GrabTime >= 12 && Player[A].Character < 5))
                 {
                     Player[A].Location.SpeedX = (num_t)Player[A].GrabSpeed;
                     Player[A].GrabSpeed = 0;
@@ -985,9 +985,6 @@ void PlayerBlockLogic(int A, int& floorBlock, bool& movingBlock, bool& DontReset
                     PlaySoundSpatial(SFX_Jump, Player[A].Location);
                     Player[A].Jump = Physics.PlayerBlockJumpHeight;
 
-                    if(Player[A].Character == 2)
-                        Player[A].Jump += 3;
-
                     if(Player[A].SpinJump)
                         Player[A].Jump -= 6;
                 }
@@ -1006,9 +1003,6 @@ void PlayerBlockLogic(int A, int& floorBlock, bool& movingBlock, bool& DontReset
                 // HitSpot = 0; // this definition is never used
                 floorBlock = 0;
                 Player[A].Jump = 7;
-
-                if(Player[A].Character == 2)
-                    Player[A].Jump += 3;
 
                 if(Player[A].Controls.Down)
                 {

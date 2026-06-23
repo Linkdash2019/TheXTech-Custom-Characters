@@ -658,7 +658,7 @@ void SetupPlayers()
             Player[A].State = 1;
         // box to hearts
 
-        if(Player[A].Character == 3 || Player[A].Character == 4 || Player[A].Character == 5) // Peach and Toad
+        if(Player[A].Character == 5) // Peach and Toad
         {
             if(Player[A].Hearts <= 0)
                 Player[A].Hearts = 1;
@@ -732,7 +732,7 @@ void SetupPlayers()
         // reset all variables
         if(Player[A].Mount == 2)
             Player[A].Mount = 0;
-        if(Player[A].Character >= 3 && Player[A].Mount == 3)
+        if(Player[A].Character == 5 && Player[A].Mount == 3)
             Player[A].Mount = 0;
 
         Player[A].Slippy = false;
@@ -831,17 +831,6 @@ void SetupPlayers()
         Player[A].FloatTime = 0;
         Player[A].CanFloat = false;
         Player[A].CurMazeZone = 0;
-
-        if(Player[A].Character == 3)
-            Player[A].CanFloat = true;
-
-        if(Player[A].Character == 3 || Player[A].Character == 4)
-        {
-            if(Player[A].State == 1)
-                Player[A].Hearts = 1;
-            if(Player[A].State > 1 && Player[A].Hearts < 2)
-                Player[A].Hearts = 2;
-        }
 
         // legacy code for >2P, unused in modern gameplay
         if(numPlayers > 2 && !GameMenu) // find correct positions without start locations
@@ -3618,8 +3607,6 @@ void PlayerDismount(const int A)
         PlaySoundSpatial(SFX_Boot, p.Location);
         Player[A].Location.SpeedY = Physics.PlayerJumpVelocity - tempSpeed;
         Player[A].Jump = Physics.PlayerJumpHeight;
-        if(Player[A].Character == 2)
-            Player[A].Jump += 3;
         if(Player[A].SpinJump)
             Player[A].Jump -= 6;
         Player[A].Mount = 0;
@@ -3666,8 +3653,6 @@ void PlayerDismount(const int A)
         PlaySoundSpatial(SFX_Jump, p.Location); // Jump sound
         PlaySoundSpatial(SFX_Boot, p.Location);
         Player[A].Jump = Physics.PlayerJumpHeight;
-        if(Player[A].Character == 2)
-            Player[A].Jump = Player[A].Jump + 3;
         if(Player[A].SpinJump)
             Player[A].Jump = Player[A].Jump - 6;
         Player[A].Mount = 0;
@@ -3740,8 +3725,6 @@ void PlayerDismount(const int A)
             PlaySoundSpatial(SFX_Jump, p.Location); // Jump sound
             Player[A].Location.SpeedY = Physics.PlayerJumpVelocity - tempSpeed;
             Player[A].Jump = Physics.PlayerJumpHeight;
-            if(Player[A].Character == 2)
-                Player[A].Jump = Player[A].Jump + 3;
             if(Player[A].SpinJump)
                 Player[A].Jump = Player[A].Jump - 6;
         }

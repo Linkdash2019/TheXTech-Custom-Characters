@@ -207,7 +207,7 @@ bool UpdatePlayer()
                     Player[A].Slide = true;
                 else if(Player[A].Slope > 0 && Player[A].Controls.Down &&
                    Player[A].Mount == 0 && Player[A].HoldingNPC == 0 &&
-                   !(Player[A].Character == 3 || Player[A].Character == 4 || Player[A].Character == 5) &&
+                   !(layer[A].Character == 5) &&
                    Player[A].GrabTime == 0)
                 {
                     // prioritize rolling for Polar power
@@ -225,7 +225,7 @@ bool UpdatePlayer()
                     Player[A].Slide = false;
 
                 // unduck a player that shouldn't be able to duck
-                if(Player[A].Duck && (Player[A].Character == 1 || Player[A].Character == 2) && Player[A].State == 1 && (Player[A].Mount == 0 || Player[A].Mount == 2))
+                if(Player[A].Duck && (Player[A].Character <= 4) && Player[A].State == 1 && (Player[A].Mount == 0 || Player[A].Mount == 2))
                     UnDuck(Player[A]);
 
                 if(GameMenu && !Player[A].SpinJump) // force the player to look right when on the game menu
@@ -394,7 +394,7 @@ bool UpdatePlayer()
                 }
 
                 // princess peach and toad stuff
-                if(Player[A].Character == 3 || Player[A].Character == 4 || Player[A].Character == 5)
+                if(Player[A].Character == 5)
                 {
                     Player[A].HeldBonus = NPCID(0);
                     // power up limiter

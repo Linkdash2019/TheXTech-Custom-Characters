@@ -1173,17 +1173,8 @@ void BlockFrames()
 
     for(A = 1; A <= numPlayers; A++)
     {
-        if(Player[A].Character == 1)
+        if(Player[A].Character <= 4)
             BlockFrame[622] = 4;
-
-        if(Player[A].Character == 2)
-            BlockFrame[623] = 4;
-
-        if(Player[A].Character == 3)
-            BlockFrame[624] = 4;
-
-        if(Player[A].Character == 4)
-            BlockFrame[625] = 4;
 
         if(Player[A].Character == 5)
             BlockFrame[631] = 4;

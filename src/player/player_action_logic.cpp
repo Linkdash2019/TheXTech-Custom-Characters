@@ -263,9 +263,6 @@ void PlayerThrowBomb(int A)
 
 bool PlayerChar4HeavyOut(const int A)
 {
-    if(Player[A].Character != 4)
-        return false;
-
     for(int B : NPCQueues::Active.no_change)
     {
         if(NPC[B].Active)

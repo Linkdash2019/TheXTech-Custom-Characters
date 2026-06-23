@@ -5441,10 +5441,8 @@ void CharStuff(int WhatNPC, bool CheckEggs)
 
     for(A = 1; A <= numPlayers; A++)
     {
-        if(Player[A].Character == 1 || Player[A].Character == 2)
+        if(Player[A].Character <= 4)
             SMBX = true;
-        if(Player[A].Character == 3 || Player[A].Character == 4)
-            SMB2 = true;
         if(Player[A].Character == 5)
             TLOZ = true;
     }

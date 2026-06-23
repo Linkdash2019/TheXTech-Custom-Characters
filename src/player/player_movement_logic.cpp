@@ -167,8 +167,8 @@ void PlayerMovementX(int A, tempf_t& cursed_value_C)
         if(Player[A].Controls.Down && !Player[A].SpinJump &&
            !Player[A].Stoned && Player[A].Vine == 0 && !Player[A].Slide &&
            (Player[A].Slope == 0 || Player[A].Mount > 0 || Player[A].WetFrame ||
-            Player[A].Character >= 3 || Player[A].GrabTime > 0) &&
-           ((!Player[A].WetFrame || Player[A].Character >= 3) ||
+            Player[A].Character == 5 || Player[A].GrabTime > 0) &&
+           ((!Player[A].WetFrame || Player[A].Character == 5) ||
             is_grounded || Player[A].Mount == 1) &&
            !Player[A].Fairy && !Player[A].ShellSurf && !Player[A].Driving)
         {
@@ -580,7 +580,7 @@ void PlayerMovementY(int A)
 
     // handles the regular jump
     if(Player[A].Controls.Jump || (Player[A].Controls.AltJump &&
-       ((Player[A].Character > 2 && Player[A].Character != 4) || Player[A].Quicksand > 0 || Player[A].Rolling || aquatic_jumps || g_config.disable_spin_jump) &&
+       ((Player[A].Character == 5) || Player[A].Quicksand > 0 || Player[A].Rolling || aquatic_jumps || g_config.disable_spin_jump) &&
        Player[A].CanAltJump))
     {
         num_t tempSpeed;
@@ -995,7 +995,7 @@ void PlayerMovementY(int A)
     // glide ' Racoon Mario
     if((Player[A].State == PLR_STATE_LEAF || Player[A].State == PLR_STATE_STATUE) || Player[A].YoshiBlue || (Player[A].Mount == 1 && Player[A].MountType == 3))
     {
-        if((Player[A].Controls.Jump || Player[A].Controls.AltJump) && (Player[A].Location.SpeedY > Physics.PlayerGravity * 5 && Player[A].Character != 3 && Player[A].Character != 4))
+        if((Player[A].Controls.Jump || Player[A].Controls.AltJump) && (Player[A].Location.SpeedY > Physics.PlayerGravity * 5))
         {
             if(!Player[A].ShellSurf)
             {
@@ -1038,7 +1038,7 @@ void PlayerSwimMovementY(int A)
     {
         if(Player[A].StandingOnNPC == 0 && Player[A].Slope == 0 && Player[A].Location.SpeedY != 0 && Player[A].Mount != 1)
         {
-            if(Player[A].Character <= 2) // unduck wet players that aren't peach o toad
+            if(Player[A].Character <= 4) // unduck wet players that aren't peach o toad
                 UnDuck(Player[A]);
         }
     }
@@ -1091,7 +1091,7 @@ void PlayerSwimMovementY(int A)
             if((Player[A].Controls.Jump && Player[A].CanJump) ||
                (Player[A].Controls.AltJump && Player[A].CanAltJump))
             {
-                if(Player[A].Duck && Player[A].Mount != 1 && Player[A].Character <= 2)
+                if(Player[A].Duck && Player[A].Mount != 1 && Player[A].Character <= 4)
                     UnDuck(Player[A]);
 
                 if(Player[A].Slope != 0)

@@ -462,7 +462,7 @@ void PlayerNPCLogic(int A, bool& tempSpring, bool& tempShell, int& MessageNPC, c
 
                                         PlaySoundSpatial(SFX_Stomp, Player[A].Location);
                                     }
-                                    else if(NPCIsYoshi(NPC[B]) && (Player[A].Character == 1 || Player[A].Character == 2))
+                                    else if(NPCIsYoshi(NPC[B]) && (Player[A].Character <= 4))
                                     {
                                         UnDuck(Player[A]);
                                         NPC[B].Killed = 9;
@@ -532,7 +532,7 @@ void PlayerNPCLogic(int A, bool& tempSpring, bool& tempShell, int& MessageNPC, c
                                     // grab turtle shells
                                     //if(nPlay.Online == false || nPlay.MySlot + 1 == A)
                                     {
-                                        if(Player[A].Character >= 3)
+                                        if(Player[A].Character == 5)
                                             PlaySoundSpatial(SFX_Grab, Player[A].Location);
                                         else
                                             UnDuck(Player[A]);
@@ -639,7 +639,7 @@ void PlayerNPCLogic(int A, bool& tempSpring, bool& tempShell, int& MessageNPC, c
                                         }
                                         else if(Player[A].HoldingNPC == 0)
                                         {
-                                            if(!NPC[B]->IsAShell || Player[A].Character >= 3)
+                                            if(!NPC[B]->IsAShell || Player[A].Character == 5)
                                             {
                                                 if(NPCIsVeggie(NPC[B]))
                                                     PlaySoundSpatial(SFX_Grab2, Player[A].Location);
@@ -647,7 +647,7 @@ void PlayerNPCLogic(int A, bool& tempSpring, bool& tempShell, int& MessageNPC, c
                                                     PlaySoundSpatial(SFX_Grab, Player[A].Location);
                                             }
 
-                                            if(Player[A].Character <= 2)
+                                            if(Player[A].Character <= 4)
                                                 UnDuck(Player[A]);
                                             Player[A].HoldingNPC = B;
                                             NPC[B].Direction = Player[A].Direction;
@@ -1003,10 +1003,6 @@ void PlayerNPCLogic(int A, bool& tempSpring, bool& tempShell, int& MessageNPC, c
     }
     else if(bounceNpc) // For multiple NPC hits
     {
-        // enable another double-jump when Char4 bounces on an NPC
-        if(Player[A].Character == 4 && (Player[A].State == 4 || Player[A].State == 5) && !Player[A].SpinJump)
-            Player[A].DoubleJump = true;
-
         Player[A].CanJump = true;
 
         if(tempSpring)
@@ -1019,9 +1015,6 @@ void PlayerNPCLogic(int A, bool& tempSpring, bool& tempShell, int& MessageNPC, c
             Player[A].Jump = Physics.PlayerNPCJumpHeight;
             Player[A].Location.SpeedY = Physics.PlayerJumpVelocity;
         }
-
-        if(Player[A].Character == 2)
-            Player[A].Jump += 3;
 
         if(Player[A].SpinJump)
             Player[A].Jump -= 6;
@@ -1108,9 +1101,6 @@ void PlayerNPCLogic(int A, bool& tempSpring, bool& tempShell, int& MessageNPC, c
             NPC[B].Multiplier += Player[A].Multiplier;
             NPCHit(B, 3, B);
             Player[A].Jump = 7;
-
-            if(Player[A].Character == 2)
-                Player[A].Jump += 3;
 
             if(Player[A].Controls.Down)
             {

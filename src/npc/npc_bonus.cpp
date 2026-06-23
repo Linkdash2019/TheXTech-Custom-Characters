@@ -76,13 +76,6 @@ void DropBonus(int A)
         return;
     }
 
-    // is player not meant to have a bonus?
-    if(Player[A].Character == 3 || Player[A].Character == 4)
-    {
-        Player[A].HeldBonus = NPCID(0);
-        return;
-    }
-
     if(g_config.alt_powerdown)
         return;
 
@@ -257,7 +250,7 @@ void TouchBonus(int A, int B)
     }
 
     // give hearts to heart chars
-    if(Player[A].Character == 3 || Player[A].Character == 4 || Player[A].Character == 5)
+    if(Player[A].Character == 5)
     {
         // only the first three types were checked in SMBX 1.3, the others were moved here for simplicity
         if(NPC[B].Type == NPCID_LEAF_POWER || NPC[B].Type == NPCID_STATUE_POWER || NPC[B].Type == NPCID_HEAVY_POWER
@@ -361,7 +354,7 @@ void TouchBonus(int A, int B)
     {
         MoreScore(10, NPC[B].Location);
     }
-    else if(NPC[B].Type == NPCID_TIMER_S3 && NPC[B].Effect != NPCEFF_DROP_ITEM && (Player[A].Character == 1 || Player[A].Character == 2)) // send the clock to the item container
+    else if(NPC[B].Type == NPCID_TIMER_S3 && NPC[B].Effect != NPCEFF_DROP_ITEM && (Player[A].Character <= 4)) // send the clock to the item container
     {
         Player[A].HeldBonus = NPCID_TIMER_S3;
         PlaySoundSpatial(SFX_GotItem, NPC[B].Location);
@@ -431,7 +424,7 @@ void TouchBonus(int A, int B)
             int BackupGrabTime = Player[A].GrabTime;
 
             // force UnDuck to work, fixes a vanilla downwards clip while ducking
-            if(g_config.fix_player_grab_clip && Player[A].Character >= 3)
+            if(g_config.fix_player_grab_clip && Player[A].Character == 5)
                 Player[A].GrabTime = 0;
 
             UnDuck(Player[A]);
@@ -514,7 +507,7 @@ void TouchBonus(int A, int B)
             RumbleForPowerup(A);
 
             // fixes a vanilla downwards clip that happens even if the player is just ducking (not even digging)
-            if(g_config.fix_player_grab_clip && Player[A].State == 1 && Player[A].Character >= 3 && reset_effect2)
+            if(g_config.fix_player_grab_clip && Player[A].State == 1 && Player[A].Character == 5 && reset_effect2)
             {
                 int BackupGrabTime = Player[A].GrabTime;
                 Player[A].GrabTime = 0;
